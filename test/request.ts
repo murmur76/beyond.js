@@ -17,8 +17,8 @@ let requestBody = {
 };
 
 describe('Request', function () {
-  before(function (done) {
-    setExpressRequests(done);
+  before(function () {
+    setExpressRequests();
   });
 
   after(function (done) {
@@ -136,7 +136,7 @@ describe('Request', function () {
   });
 });
 
-function setExpressRequests(done) {
+function setExpressRequests() {
   expressApp.post('/plugin/form/hello', function (req, res) {
     res.send('hello');
     expressFormRequest = req;
@@ -144,7 +144,6 @@ function setExpressRequests(done) {
   expressApp.post('/plugin/json/world', function (req, res) {
     res.send('hello');
     expressJsonRequest = req;
-    done();
   });
   expressServer = expressApp.listen(8999, function () {
     let formData = querystring.stringify(requestBody);
@@ -153,7 +152,9 @@ function setExpressRequests(done) {
       port: 8999,
       path: '/plugin/form/hello',
       method: 'POST',
+      agent: false,
       headers: {
+        //'Connection': 'close',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': formData.length,
         'Custom-Header': 'this is custom header1'

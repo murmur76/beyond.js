@@ -154,6 +154,7 @@ function setExpressRequests() {
       method: 'POST',
       agent: false,
       headers: {
+        //'Connection': 'close',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': formData.length,
         'Custom-Header': 'this is custom header1'
